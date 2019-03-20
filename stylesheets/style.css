@@ -1,0 +1,10 @@
+html, body, .main {
+    height: 100vh;
+    width: 100%;
+    padding: 0;
+    margin: 0;
+}
+
+.main {
+    background: rgb(32, 32, 32);
+}
