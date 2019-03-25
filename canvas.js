@@ -7,17 +7,18 @@ canvas.height = window.innerHeight;
 var c = canvas.getContext('2d');
 
 var staticTexts = [
-    {text: "We live on a                island of ignorance in", x: 100, y: 120},
-    {text: "the midst of black seas of infinity, and it", x: 140, y: 180},
-    {text: "was not meant that we should voyage far.", x: 180, y: 240},
-    {text: "- H.P. Lovecraft", x: 260, y: 300}
+    {text: "We live on a                island of ignorance in", x: 100, y: 120, size: 40},
+    {text: "the midst of black seas of infinity, and it", x: 140, y: 180, size: 40},
+    {text: "was not meant that we should voyage far.", x: 180, y: 240, size: 40},
+    {text: "- H.P. Lovecraft", x: 260, y: 300, size: 40}
 ];
 
 var targetTexts = [
-    {text: "placid", x: 1000, y: 500 }
+    {text: "placid", x: 1000, y: 500, size: 40}
 ];
 
 var storedTextIndices = [];
+var inventoryTexts = [];
 
 const setNormalFontSettings = () => {
     c.font = "40px sans-serif";
@@ -50,8 +51,56 @@ const setGoals = () => {
     }
 };
 
+const setupInventory = () => {
+    let inventoryHeight = canvas.width * 0.2;
+    let inventoryStartHeight = canvas.height * 0.8;
+
+    c.fillStyle = 'rgb(0, 0, 0)';
+    c.fillRect(0, inventoryStartHeight, canvas.width, inventoryHeight);
+
+    c.strokeStyle = 'white';
+    c.lineWidth = 3;
+    c.beginPath();
+    c.moveTo(0, inventoryStartHeight);
+    c.lineTo(canvas.width, inventoryStartHeight);
+    c.stroke();
+    c.closePath();
+
+    c.fillStyle = 'white';
+    c.font = "30px sans-serif";
+    c.fillText("Inventory:", 20, inventoryStartHeight + 40);
+
+    for(let i = 0; i < storedTextIndices.length; i++) {
+        let text = targetTexts[storedTextIndices[i]];
+        let textHeight = inventoryStartHeight + 100;
+
+        if (i === 0 ) {
+            if (!inventoryTexts[i]) {
+                c.fillText(text.text, 80, textHeight);
+            }
+            else if (inventoryTexts[i] && !inventoryTexts[i].selected) {
+                c.fillText(text.text, 80, textHeight);
+            } else if (inventoryTexts[i] && inventoryTexts[i].selected){
+                c.fillStyle = 'lightblue';
+                c.fillText(text.text, 80, textHeight);
+            }
+            
+            if (!inventoryTexts[i]) {
+            inventoryTexts.push({
+                text: text.text, 
+                x: 80, 
+                y: textHeight,
+                width: c.measureText(text.text).width,
+                selected: false});
+            }
+        }
+        // Add logic for other texts and store these texts in inventory
+    }
+};
+
 setNormalTexts();
 setGoals();
+setupInventory();
 
 var mouse = {
     x: undefined, 
@@ -60,13 +109,12 @@ var mouse = {
 
 var startX;
 var startY;
-var textSelected = false;
 
-const textHit = (x, y, textVar) => {
+const textHit = (x, y, textVar, textSize) => {
     let text = textVar;
     return (x >= text.x &&
         x <= text.x + c.measureText(text).width &&
-        y >= text.y - 40 &&
+        y >= text.y - textSize &&
         y <= text.y);
 };
 
@@ -76,11 +124,27 @@ const handleMouseDown = (e) => {
     startY = mouse.y;
     for (let i = 0; i < targetTexts.length; i++) {
         let text = targetTexts[i];
-        if (textHit(startX, startY, text)) {
-            textSelected = true;
+        if (textHit(startX, startY, text, 40)) {
             storedTextIndices.push(i);
             // Selection test
             console.log("Text Selected!");
+            break;
+        }
+    }
+    for (let i = 0; i < inventoryTexts.length; i++) {
+        let text = inventoryTexts[i];
+        if (textHit(startX, startY, text, 30)) {
+            if (!text.selected) {
+                text.selected = true;
+            } else {
+                text.selected = false;
+            }
+            // Selection test
+            console.log(text.selected);
+            break;
+        } else {
+            text.selected = false;
+            console.log(text.selected);
         }
     }
 };
@@ -89,12 +153,12 @@ const draw = () => {
     c.clearRect(0, 0, canvas.width, canvas.height);
     setNormalTexts();
     setGoals();
+    setupInventory();
 };
 
 // done dragging
 const handleMouseUp = (e) => {
     e.preventDefault();
-    textSelected = false;
     draw();
 };
 
