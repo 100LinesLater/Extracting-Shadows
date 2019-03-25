@@ -8,13 +8,14 @@ var c = canvas.getContext('2d');
 
 var staticTexts = [
     {text: "We live on a                island of ignorance in", x: 100, y: 120, size: 40},
-    {text: "the midst of black seas of infinity, and it", x: 140, y: 180, size: 40},
+    {text: "the midst of           seas of infinity, and it", x: 140, y: 180, size: 40},
     {text: "was not meant that we should voyage far.", x: 180, y: 240, size: 40},
     {text: "- H.P. Lovecraft", x: 260, y: 300, size: 40}
 ];
 
 var targetTexts = [
-    {text: "placid", x: 1000, y: 500, size: 40}
+    {text: "placid", x: 1000, y: 500, size: 40},
+    {text: "black", x: 100, y: 50, size: 40}
 ];
 
 var storedTextIndices = [];
@@ -34,9 +35,7 @@ const setNormalTexts = () => {
     }
     for (let i = 0; i < targetTexts.length; i++) {
         let text = targetTexts[i];
-        if (!storedTextIndices.includes(i)) {
-            c.fillText(text.text, text.x, text.y);
-        }
+        c.fillText(text.text, text.x, text.y);
     }
 };
 
@@ -86,6 +85,7 @@ const setupInventory = () => {
     } else if (inventoryTexts.length > 0) {
         for (let i = 0; i < inventoryTexts.length; i++) {
             let text = inventoryTexts[i];
+
             if (text.selected) {
                 c.fillStyle = 'lightblue';
                 c.fillText(text.text, text.x, text.y);
@@ -96,10 +96,12 @@ const setupInventory = () => {
         }
         if (tempText) {
             let text = tempText;
+            let prevText = inventoryTexts[inventoryTexts.length - 1];
+            let textXLocation = prevText.x + prevText.width + 50;
+
             c.fillStyle = 'white';
-            let prevText = inventoryTexts[-1];
-            let textXLocation = prevText.x + prevText.width + 10;
             c.fillText(text.text, textXLocation, textHeight);
+
             inventoryTexts.push({
                 text: text.text,
                 x: textXLocation,
@@ -128,27 +130,31 @@ var startY;
 const textHit = (x, y, textVar, textSize) => {
     let text = textVar;
     return (x >= text.x &&
-        x <= text.x + c.measureText(text).width &&
+        x <= text.x + c.measureText(text).width - 100 &&
         y >= text.y - textSize &&
         y <= text.y);
 };
 
 const handleMouseDown = (e) => {
     e.preventDefault();
+    // Mouse Position
     startX = mouse.x;
     startY = mouse.y;
+    // Check if a target text has been selected
     for (let i = 0; i < targetTexts.length; i++) {
         let text = targetTexts[i];
         if (textHit(startX, startY, text, 40)) {
             storedTextIndices.push(i);
-            // Selection test
-            console.log("Text Selected!");
             tempText = targetTexts[i];
             targetTexts.splice(i, 1);
-            console.log(targetTexts);
+
+            // Selection test
+            // console.log("Text Selected!");
+
             break;
         }
     }
+    // Check if an inventory text has been selected
     for (let i = 0; i < inventoryTexts.length; i++) {
         let text = inventoryTexts[i];
         if (textHit(startX, startY, text, 30)) {
@@ -158,11 +164,11 @@ const handleMouseDown = (e) => {
                 text.selected = false;
             }
             // Selection test
-            console.log(text.selected);
-            break;
+            // console.log(text.selected);
         } else {
             text.selected = false;
-            console.log(text.selected);
+            // Selection test
+            // console.log(text.selected);
         }
     }
 };
@@ -174,16 +180,10 @@ const draw = () => {
     setupInventory();
 };
 
-// done dragging
 const handleMouseUp = (e) => {
     e.preventDefault();
     draw();
 };
-
-// const handleMouseOut = (e) => {
-//     e.preventDefault();
-//     textSelected = false;
-// };
 
 // handle mousemove events
 const handleMouseMove = (e) => {
@@ -213,9 +213,6 @@ window.addEventListener('mousedown', (e) => {
 window.addEventListener('mouseup', (e) => {
     handleMouseUp(e);
 });
-// window.addEventListener('mouseout', (e) => {
-//     handleMouseOut(e);
-// });
 
 // music = new Audio("sounds/backMusic.mp3");
 // music.loop = true;
