@@ -7,8 +7,8 @@ canvas.height = window.innerHeight;
 var c = canvas.getContext('2d');
 
 var staticTexts = [
-    {text: "We live on a                island of ignorance in", x: 100, y: 120, size: 40},
-    {text: "the midst of           seas of infinity, and it", x: 140, y: 180, size: 40},
+    {text: "We live on a placid island of ignorance in", x: 100, y: 120, size: 40},
+    {text: "the midst of black seas of infinity, and it", x: 140, y: 180, size: 40},
     {text: "was not meant that we should voyage far.", x: 180, y: 240, size: 40},
     {text: "- H.P. Lovecraft", x: 260, y: 300, size: 40}
 ];
@@ -40,11 +40,12 @@ const setNormalTexts = () => {
 };
 
 var goals = [
-    {x: 325, y: 65, width: 165, height: 80}
+    {x: 328, y: 80, width: 110, height: 50, target: "placid"},
+    {x: 355, y: 140, width: 100, height: 50, target: "black"}
 ];
 
 const setGoals = () => {
-    c.fillStyle = `rgb(0,0,0)`;
+    c.fillStyle = `rgb(32,32,32)`;
     for (let i = 0; i < goals.length; i++) {
         let rect = goals[i];
         c.fillRect(rect.x, rect.y, rect.width, rect.height);
