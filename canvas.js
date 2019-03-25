@@ -119,7 +119,7 @@ const setupInventory = () => {
 setNormalTexts();
 setGoals();
 setupInventory();
-
+// Mouse location
 var mouse = {
     x: undefined, 
     y: undefined
@@ -136,11 +136,34 @@ const textHit = (x, y, textVar, textSize) => {
         y <= text.y);
 };
 
+const goalHit = (x, y, rectangleVar) => {
+    let rect = rectangleVar;
+    return (x >= rect.x &&
+        x <= rect.x + rect.width &&
+        y <= rect.y + rect.height &&
+        y >= rect.y);
+};
+
 const handleMouseDown = (e) => {
     e.preventDefault();
-    // Mouse Position
+    // Mouse Position on click
     startX = mouse.x;
     startY = mouse.y;
+    // Check if a goal area has been selected
+    for (let i = 0; i < goals.length; i++) {
+        let goal = goals[i];
+        if (goalHit(startX, startY, goal) && inventoryTexts.length > 0) {
+            
+            // Check if matching inventory text has been selected
+            for (let j = 0; j < inventoryTexts.length; j++) {
+                let text = inventoryTexts[j];
+                if (text.text === goal.target && text.selected) {
+                    goals.splice(i, 1);
+                    inventoryTexts.splice(j, 1);
+                }
+            }
+        }
+    }
     // Check if a target text has been selected
     for (let i = 0; i < targetTexts.length; i++) {
         let text = targetTexts[i];
@@ -176,9 +199,23 @@ const handleMouseDown = (e) => {
 
 const draw = () => {
     c.clearRect(0, 0, canvas.width, canvas.height);
-    setNormalTexts();
-    setGoals();
-    setupInventory();
+
+    // Normal re-render
+    if (goals.length > 0) {
+        setNormalTexts();
+        setGoals();
+        setupInventory();
+    }
+    // Win condition met
+    else {
+        setNormalTexts();
+        setTimeout(() => {
+            c.clearRect(0, 0, canvas.width, canvas.height);
+            c.fillStyle = 'white';
+            c.font = '75px sans-serif';
+            c.fillText("You won!!", canvas.width * 2 / 5, canvas.height / 2);
+        }, 5000);
+    }
 };
 
 const handleMouseUp = (e) => {
