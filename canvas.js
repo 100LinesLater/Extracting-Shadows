@@ -1,5 +1,5 @@
 var canvas = document.getElementById("main");
-var music;
+// var music;
 
 canvas.width = window.innerWidth;
 canvas.height = window.innerHeight;
@@ -14,34 +14,44 @@ var staticTexts = [
 ];
 
 var targetTexts = [
-    {text: "placid", x: 1000, y: 700 }
+    {text: "placid", x: 1000, y: 500 }
 ];
 
 var storedTextIndices = [];
 
-c.font = "40px sans-serif";
-c.fillStyle = 'white';
+const setNormalFontSettings = () => {
+    c.font = "40px sans-serif";
+    c.fillStyle = 'white';
+};
 
-for (let i = 0; i < staticTexts.length; i++) {
-    let text = staticTexts[i];
-    console.log(text.text + " " + text.x + " " + text.y);
-    c.fillText(text.text, text.x, text.y);
-}
+const setNormalTexts = () => {
+    setNormalFontSettings();
+    for (let i = 0; i < staticTexts.length; i++) {
+        let text = staticTexts[i];
+        c.fillText(text.text, text.x, text.y);
+    }
+    for (let i = 0; i < targetTexts.length; i++) {
+        let text = targetTexts[i];
+        if (!storedTextIndices.includes(i)) {
+            c.fillText(text.text, text.x, text.y);
+        }
+    }
+};
 
-for (let i = 0; i < targetTexts.length; i++) {
-    let text = targetTexts[i];
-    c.fillText(text.text, text.x, text.y);
-}
-// c.fillText("We live on a                island of ignorance in", 100, 120);
-// c.fillText("the midst of black seas of infinity, and it", 140, 180);
-// c.fillText("was not meant that we should voyage far.", 180, 240);
-// c.fillText("- H.P. Lovecraft", 260, 300);
+var goals = [
+    {x: 325, y: 65, width: 165, height: 80}
+];
 
-// var word = {text: "placid", x: 1000, y: 700};
-// c.fillText(word.text, word.x, word.y);
+const setGoals = () => {
+    c.fillStyle = `rgb(0,0,0)`;
+    for (let i = 0; i < goals.length; i++) {
+        let rect = goals[i];
+        c.fillRect(rect.x, rect.y, rect.width, rect.height);
+    }
+};
 
-c.fillStyle = `rgb(32,32,32)`;
-var goal = c.fillRect(325, 65, 165, 80);
+setNormalTexts();
+setGoals();
 
 var mouse = {
     x: undefined, 
@@ -77,18 +87,8 @@ const handleMouseDown = (e) => {
 
 const draw = () => {
     c.clearRect(0, 0, canvas.width, canvas.height);
-    c.font = "40px sans-serif";
-    c.fillStyle = 'white';
-    for (let i = 0; i < staticTexts.length; i++) {
-        let text = staticTexts[i];
-        c.fillText(text.text, text.x, text.y);
-    }
-    for (let i = 0; i < targetTexts.length; i++) {
-        let text = targetTexts[i];
-        if (!storedTextIndices.includes(i)) {
-            c.fillText(text.text, text.x, text.y);
-        }
-    }
+    setNormalTexts();
+    setGoals();
 };
 
 // done dragging
