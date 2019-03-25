@@ -19,6 +19,7 @@ var targetTexts = [
 
 var storedTextIndices = [];
 var inventoryTexts = [];
+var tempText = undefined;
 
 const setNormalFontSettings = () => {
     c.font = "40px sans-serif";
@@ -70,32 +71,46 @@ const setupInventory = () => {
     c.font = "30px sans-serif";
     c.fillText("Inventory:", 20, inventoryStartHeight + 40);
 
-    for(let i = 0; i < storedTextIndices.length; i++) {
-        let text = targetTexts[storedTextIndices[i]];
-        let textHeight = inventoryStartHeight + 100;
+    let textHeight = inventoryStartHeight + 100;
 
-        if (i === 0 ) {
-            if (!inventoryTexts[i]) {
-                c.fillText(text.text, 80, textHeight);
-            }
-            else if (inventoryTexts[i] && !inventoryTexts[i].selected) {
-                c.fillText(text.text, 80, textHeight);
-            } else if (inventoryTexts[i] && inventoryTexts[i].selected){
+    if (inventoryTexts.length === 0 && tempText !== undefined) {
+        let text = tempText;
+        c.fillText(text.text, 80, textHeight);
+        inventoryTexts.push({
+            text: text.text,
+            x: 80,
+            y: textHeight,
+            width: c.measureText(text.text).width,
+            selected: false
+        });
+    } else if (inventoryTexts.length > 0) {
+        for (let i = 0; i < inventoryTexts.length; i++) {
+            let text = inventoryTexts[i];
+            if (text.selected) {
                 c.fillStyle = 'lightblue';
-                c.fillText(text.text, 80, textHeight);
-            }
-            
-            if (!inventoryTexts[i]) {
-            inventoryTexts.push({
-                text: text.text, 
-                x: 80, 
-                y: textHeight,
-                width: c.measureText(text.text).width,
-                selected: false});
+                c.fillText(text.text, text.x, text.y);
+            } else {
+                c.fillStyle = 'white';
+                c.fillText(text.text, text.x, text.y);
             }
         }
-        // Add logic for other texts and store these texts in inventory
+        if (tempText) {
+            let text = tempText;
+            c.fillStyle = 'white';
+            let prevText = inventoryTexts[-1];
+            let textXLocation = prevText.x + prevText.width + 10;
+            c.fillText(text.text, textXLocation, textHeight);
+            inventoryTexts.push({
+                text: text.text,
+                x: textXLocation,
+                y: textHeight,
+                width: c.measureText(text.text).width,
+                selected: false
+            });
+        }
     }
+    tempText = undefined;
+
 };
 
 setNormalTexts();
@@ -128,6 +143,9 @@ const handleMouseDown = (e) => {
             storedTextIndices.push(i);
             // Selection test
             console.log("Text Selected!");
+            tempText = targetTexts[i];
+            targetTexts.splice(i, 1);
+            console.log(targetTexts);
             break;
         }
     }
