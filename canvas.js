@@ -6,6 +6,15 @@ canvas.height = window.innerHeight;
 
 var c = canvas.getContext('2d');
 
+// Mouse location
+var mouse = {
+    x: undefined,
+    y: undefined
+};
+
+var startX = 500;
+var startY = 500;
+
 var staticTexts = [
     {text: "We live on a placid island of ignorance in", x: 100, y: 120, size: 40},
     {text: "the midst of black seas of infinity, and it", x: 140, y: 180, size: 40},
@@ -116,17 +125,18 @@ const setupInventory = () => {
 
 };
 
-setNormalTexts();
-setGoals();
-setupInventory();
-// Mouse location
-var mouse = {
-    x: undefined, 
-    y: undefined
+const setSearchLight = () => {
+    c.fillStyle = "black";
+    c.beginPath();
+    c.arc(mouse.x, mouse.y, 50, 0, 2 * Math.PI);
+    c.rect(canvas.width, 0, -(canvas.width), canvas.height);
+    c.fill();
 };
 
-var startX;
-var startY;
+setNormalTexts();
+setGoals();
+setSearchLight();
+setupInventory();
 
 const textHit = (x, y, textVar, textSize) => {
     let text = textVar;
@@ -204,6 +214,7 @@ const draw = () => {
     if (goals.length > 0) {
         setNormalTexts();
         setGoals();
+        setSearchLight();
         setupInventory();
     }
     // Win condition met
@@ -228,6 +239,7 @@ const handleMouseMove = (e) => {
     e.preventDefault();
     mouse.x = e.x;
     mouse.y = e.y;
+    draw();
 
     // if(!textSelected) return;
     
