@@ -1,5 +1,14 @@
 var canvas = document.getElementById("main");
-// var music;
+
+const AudioContext = window.AudioContext || window.webkitAudioContext;
+const audioContext = new AudioContext();
+
+const audioElement = document.querySelector('audio');
+const track = audioContext.createMediaElementSource(audioElement);
+
+track.connect(audioContext.destination);
+
+var playing = false;
 
 canvas.width = window.innerWidth;
 canvas.height = window.innerHeight;
@@ -61,6 +70,11 @@ const setGoals = () => {
     }
 };
 
+var playButton = {
+    text: "Play/Pause    ", x: canvas.width - 200,
+    y: canvas.height * 0.8 + 40, size: 30
+};
+
 const setupInventory = () => {
     let inventoryHeight = canvas.width * 0.2;
     let inventoryStartHeight = canvas.height * 0.8;
@@ -79,6 +93,7 @@ const setupInventory = () => {
     c.fillStyle = 'white';
     c.font = "30px sans-serif";
     c.fillText("Inventory:", 20, inventoryStartHeight + 40);
+    c.fillText(playButton.text, playButton.x, playButton.y);
 
     let textHeight = inventoryStartHeight + 100;
 
@@ -141,7 +156,7 @@ setupInventory();
 const textHit = (x, y, textVar, textSize) => {
     let text = textVar;
     return (x >= text.x &&
-        x <= text.x + c.measureText(text).width - 100 &&
+        x <= text.x + c.measureText(text).width - 90 &&
         y >= text.y - textSize &&
         y <= text.y);
 };
@@ -153,6 +168,10 @@ const goalHit = (x, y, rectangleVar) => {
         y <= rect.y + rect.height &&
         y >= rect.y);
 };
+
+audioElement.addEventListener('ended', () => {
+    playing = false;
+}, false);
 
 const handleMouseDown = (e) => {
     e.preventDefault();
@@ -203,6 +222,20 @@ const handleMouseDown = (e) => {
             text.selected = false;
             // Selection test
             // console.log(text.selected);
+        }
+    }
+    if (textHit(startX, startY, playButton, 30)) {
+        if (audioContext.state === 'suspended') {
+            audioContext.resume();
+        }
+
+        // play or pause track depending on state
+        if (!playing) {
+            audioElement.play();
+            playing = true;
+        } else if (playing) {
+            audioElement.pause();
+            playing = false;
         }
     }
 };
