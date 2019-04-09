@@ -95,7 +95,7 @@ const setupInventory = () => {
     c.fillText("Inventory:", 20, inventoryStartHeight + 40);
     c.fillText(playButton.text, playButton.x, playButton.y);
 
-    let textHeight = inventoryStartHeight + 100;
+    let textHeight = (inventoryStartHeight + canvas.height) / 2 + 20;
 
     if (inventoryTexts.length === 0 && tempText !== undefined) {
         let text = tempText;
