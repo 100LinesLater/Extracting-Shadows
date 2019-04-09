@@ -140,10 +140,10 @@ const setupInventory = () => {
 
 };
 
-const setSearchLight = () => {
+const setSearchLight = (size) => {
     c.fillStyle = "black";
     c.beginPath();
-    c.arc(mouse.x, mouse.y, 50, 0, 2 * Math.PI);
+    c.arc(mouse.x, mouse.y, size, 0, 2 * Math.PI);
     c.rect(canvas.width, 0, -(canvas.width), canvas.height);
     c.fill();
 };
@@ -151,10 +151,11 @@ const setSearchLight = () => {
 var instructionsOn = true;
 var firstTimeInstructions = true;
 var instructionsDifficulties = [
-    {text: "Easy", x: 0, y: 0, size: 30 },
-    {text: "Medium", x: 0, y: 0, size: 30 },
-    {text: "Hard", x: 0, y: 0, size: 30 }
+    {text: "Easy", x: 0, y: 0, size: 30, searchlightSize: 70},
+    { text: "Medium", x: 0, y: 0, size: 30, searchlightSize: 55},
+    { text: "Hard", x: 0, y: 0, size: 30, searchlightSize: 40}
 ];
+var currentDifficulty = 55;
 
 const loadInstructions = () => {
     c.fillStyle = "black";
@@ -294,7 +295,7 @@ const draw = () => {
     if (goals.length > 0) {
         setNormalTexts();
         setGoals();
-        setSearchLight();
+        setSearchLight(currentDifficulty);
         setupInventory();
     }
     // Win condition met
