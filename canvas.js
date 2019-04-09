@@ -202,6 +202,18 @@ const handleMouseDown = (e) => {
     // Mouse Position on click
     startX = mouse.x;
     startY = mouse.y;
+
+    // Go to game if instructions are loaded
+    if (instructionsOn && firstTimeInstructions) {
+        // Check if difficulty has been selected and assign difficulty settings
+        
+        firstTimeInstructions = false;
+        instructionsOn = false;
+    } else if (instructionsOn) {
+        // Do nothing game related if instructions are loaded
+        instructionsOn = false;
+    } else {
+
     // Check if a goal area has been selected
     for (let i = 0; i < goals.length; i++) {
         let goal = goals[i];
@@ -261,6 +273,7 @@ const handleMouseDown = (e) => {
             audioElement.pause();
             playing = false;
         }
+    }
     }
 };
 
