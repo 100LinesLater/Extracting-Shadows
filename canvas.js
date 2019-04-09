@@ -148,10 +148,34 @@ const setSearchLight = () => {
     c.fill();
 };
 
-setNormalTexts();
-setGoals();
-setSearchLight();
-setupInventory();
+var instructionsOn = true;
+var firstTimeInstructions = true;
+var instructionsDifficulties = [
+    "Select a difficulty:",
+    "Easy", 
+    "Medium",
+    "Hard"
+]
+
+const loadInstructions = () => {
+    c.fillStyle = "black";
+    c.beginPath();
+    c.rect(0, 0, canvas.width, canvas.height);
+    c.fill();
+
+    c.fillStyle = "white";
+    c.font = "40px sans-serif";
+    c.fillText("Welcome to the world of Extracting Shadows.", canvas.width / 7, canvas.height / 5);
+    c.font = "30px sans-serif";
+    c.fillText("- Search amongst the darkness to find the missing words to complete the quote.", canvas.width / 7, canvas.height / 5 + 50);
+    c.fillText("- Once found, select a word from your inventory and click on the place it belongs.", canvas.width / 7, canvas.height / 5 + 90);
+}
+
+loadInstructions();
+// setNormalTexts();
+// setGoals();
+// setSearchLight();
+// setupInventory();
 
 const textHit = (x, y, textVar, textSize) => {
     let text = textVar;
@@ -258,7 +282,7 @@ const draw = () => {
             c.fillStyle = 'white';
             c.font = '75px sans-serif';
             c.fillText("You won!!", canvas.width * 2 / 5, canvas.height / 2);
-        }, 5000);
+        }, 7000);
     }
 };
 
@@ -272,7 +296,9 @@ const handleMouseMove = (e) => {
     e.preventDefault();
     mouse.x = e.x;
     mouse.y = e.y;
-    draw();
+    if (!instructionsOn) {
+        draw();
+    }
 
     // if(!textSelected) return;
     
