@@ -183,10 +183,6 @@ const loadInstructions = () => {
 };
 
 loadInstructions();
-// setNormalTexts();
-// setGoals();
-// setSearchLight();
-// setupInventory();
 
 const textHit = (x, y, textVar, textSize) => {
     let text = textVar;
@@ -218,6 +214,8 @@ const handleMouseDown = (e) => {
     if (instructionsOn && firstTimeInstructions) {
         // Check if difficulty has been selected and assign difficulty settings
         
+        audioElement.play();
+        playing = true;
         firstTimeInstructions = false;
         instructionsOn = false;
     } else if (instructionsOn) {
@@ -312,7 +310,9 @@ const draw = () => {
 
 const handleMouseUp = (e) => {
     e.preventDefault();
-    draw();
+    if (!instructionsOn) {
+        draw();
+    }
 };
 
 // handle mousemove events
