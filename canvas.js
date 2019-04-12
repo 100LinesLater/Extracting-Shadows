@@ -45,18 +45,19 @@ var levelDetails = {
     },
     2: {
         staticTexts: [
-            { text: "We live on a small island of ignorance in", x: 100, y: 120, size: 40 },
-            { text: "the midst of black seas of infinity, and it", x: 140, y: 180, size: 40 },
-            { text: "was not meant that we should voyage far.", x: 180, y: 240, size: 40 },
-            { text: "- H.P. Lovecraft", x: 260, y: 300, size: 40 }
+            { text: "Humanity has the stars in its future, and that future", x: 200, y: 220, size: 40 },
+            { text: "is too important to be lost under the burden", x: 240, y: 280, size: 40 },
+            { text: "of juvenile folly and ignorant superstition.", x: 280, y: 340, size: 40 },
+            { text: "- Isaac Asimov", x: 360, y: 400, size: 40 }
         ],
         targetTexts: [
-            { text: "small", x: 1000, y: 500, size: 40 },
-            { text: "black", x: 100, y: 50, size: 40 }
+            { text: "stars", x: 300, y: 500, size: 30 },
+            { text: "folly", x: 500, y: 50, size: 30 },
+            { text: "error", x: 100, y: 150, size: 30 },
         ],
         goals: [
-            { x: 328, y: 80, width: 110, height: 50, target: "small" },
-            { x: 355, y: 140, width: 100, height: 50, target: "black" }
+            { x: 520, y: 180, width: 90, height: 50, target: "stars" },
+            { x: 460, y: 295, width: 85, height: 60, target: "folly" }
         ]
     }
 };
@@ -336,7 +337,7 @@ const draw = () => {
 
     // Level win condition met
     if (currentLevel > Object.keys(levelDetails).length) {
-        c.fillText("Skraatadu", 200, 200);
+        c.fillText("Congratulations, you've finished all the current levels", 200, 200);
     } else if (levelDetails[currentLevel].goals.length === 0) {
         setNormalTexts(currentLevel);
         times = setTimeout(() => {
