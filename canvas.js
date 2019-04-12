@@ -24,6 +24,8 @@ var mouse = {
 var startX = 500;
 var startY = 500;
 
+var currentLevel = 1;
+
 var staticTexts = [
     {text: "We live on a placid island of ignorance in", x: 100, y: 120, size: 40},
     {text: "the midst of black seas of infinity, and it", x: 140, y: 180, size: 40},
@@ -289,23 +291,17 @@ const handleMouseDown = (e) => {
 const draw = () => {
     c.clearRect(0, 0, canvas.width, canvas.height);
 
-    // Normal re-render
-    if (goals.length > 0) {
-        setNormalTexts();
-        setGoals();
-        setSearchLight(currentDifficulty);
-        setupInventory();
-    }
     // Win condition met
-    else {
+    if (goals.length === 0) {
         setNormalTexts();
         setTimeout(() => {
-            c.clearRect(0, 0, canvas.width, canvas.height);
-            c.fillStyle = 'white';
-            c.font = '75px sans-serif';
-            c.fillText("You won!!", canvas.width * 2 / 5, canvas.height / 2);
+            currentLevel++;
         }, 7000);
     }
+    setNormalTexts();
+    setGoals();
+    setSearchLight(currentDifficulty);
+    setupInventory();
 };
 
 const handleMouseUp = (e) => {
@@ -323,17 +319,6 @@ const handleMouseMove = (e) => {
     if (!instructionsOn) {
         draw();
     }
-
-    // if(!textSelected) return;
-    
-    // var dx = mouse.x - startX;
-    // var dy = mouse.y - startY;
-    // startX = mouse.x;
-    // startY = mouse.y;
-
-    // word.x += dx;
-    // word.y += dy;
-    // draw();
 };
 
 // listen for mouse events
@@ -346,8 +331,3 @@ window.addEventListener('mousedown', (e) => {
 window.addEventListener('mouseup', (e) => {
     handleMouseUp(e);
 });
-
-// music = new Audio("sounds/backMusic.mp3");
-// music.loop = true;
-// music.load();
-// music.play();
