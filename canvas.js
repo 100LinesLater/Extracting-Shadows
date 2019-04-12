@@ -41,7 +41,8 @@ var levelDetails = {
         goals: [
             { x: 328, y: 80, width: 110, height: 50, target: "placid" },
             { x: 355, y: 140, width: 100, height: 50, target: "black" }
-        ]
+        ], 
+        nextLevelButton: { text: "Next level", x: 400, y: 400, size: 40 }
     },
     2: {
         staticTexts: [
@@ -335,11 +336,13 @@ const draw = () => {
     c.clearRect(0, 0, canvas.width, canvas.height);
     clearTimeout(times);
 
-    // Level win condition met
+    // Level and game win condition check
     if (currentLevel > Object.keys(levelDetails).length) {
         c.fillText("Congratulations, you've finished all the current levels", 200, 200);
     } else if (levelDetails[currentLevel].goals.length === 0) {
         setNormalTexts(currentLevel);
+        let button = levelDetails[currentLevel].nextLevelButton;
+        c.fillText(button.text, button.x, button.y);
         times = setTimeout(() => {
             currentLevel++;
             draw();
