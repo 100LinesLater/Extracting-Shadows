@@ -26,17 +26,52 @@ var startY = 500;
 
 var currentLevel = 1;
 
-var staticTexts = [
-    {text: "We live on a placid island of ignorance in", x: 100, y: 120, size: 40},
-    {text: "the midst of black seas of infinity, and it", x: 140, y: 180, size: 40},
-    {text: "was not meant that we should voyage far.", x: 180, y: 240, size: 40},
-    {text: "- H.P. Lovecraft", x: 260, y: 300, size: 40}
-];
+var levelDetails = {
+    1: {
+        staticTexts: [
+            { text: "We live on a placid island of ignorance in", x: 100, y: 120, size: 40 },
+            { text: "the midst of black seas of infinity, and it", x: 140, y: 180, size: 40 },
+            { text: "was not meant that we should voyage far.", x: 180, y: 240, size: 40 },
+            { text: "- H.P. Lovecraft", x: 260, y: 300, size: 40 }
+        ],
+        targetTexts: [
+            { text: "placid", x: 1000, y: 500, size: 40 },
+            { text: "black", x: 100, y: 50, size: 40 }
+        ], 
+        goals: [
+            { x: 328, y: 80, width: 110, height: 50, target: "placid" },
+            { x: 355, y: 140, width: 100, height: 50, target: "black" }
+        ]
+    },
+    2: {
+        staticTexts: [
+            { text: "We live on a small island of ignorance in", x: 100, y: 120, size: 40 },
+            { text: "the midst of black seas of infinity, and it", x: 140, y: 180, size: 40 },
+            { text: "was not meant that we should voyage far.", x: 180, y: 240, size: 40 },
+            { text: "- H.P. Lovecraft", x: 260, y: 300, size: 40 }
+        ],
+        targetTexts: [
+            { text: "small", x: 1000, y: 500, size: 40 },
+            { text: "black", x: 100, y: 50, size: 40 }
+        ],
+        goals: [
+            { x: 328, y: 80, width: 110, height: 50, target: "small" },
+            { x: 355, y: 140, width: 100, height: 50, target: "black" }
+        ]
+    }
+};
 
-var targetTexts = [
-    {text: "placid", x: 1000, y: 500, size: 40},
-    {text: "black", x: 100, y: 50, size: 40}
-];
+// var staticTexts = [
+//     {text: "We live on a placid island of ignorance in", x: 100, y: 120, size: 40},
+//     {text: "the midst of black seas of infinity, and it", x: 140, y: 180, size: 40},
+//     {text: "was not meant that we should voyage far.", x: 180, y: 240, size: 40},
+//     {text: "- H.P. Lovecraft", x: 260, y: 300, size: 40}
+// ];
+
+// var targetTexts = [
+//     {text: "placid", x: 1000, y: 500, size: 40},
+//     {text: "black", x: 100, y: 50, size: 40}
+// ];
 
 var storedTextIndices = [];
 var inventoryTexts = [];
@@ -47,25 +82,28 @@ const setNormalFontSettings = () => {
     c.fillStyle = 'white';
 };
 
-const setNormalTexts = () => {
+const setNormalTexts = (lvl) => {
     setNormalFontSettings();
-    for (let i = 0; i < staticTexts.length; i++) {
-        let text = staticTexts[i];
+    let texts = levelDetails[lvl].staticTexts;
+    for (let i = 0; i < texts.length; i++) {
+        let text = texts[i];
         c.fillText(text.text, text.x, text.y);
     }
-    for (let i = 0; i < targetTexts.length; i++) {
-        let text = targetTexts[i];
+    let targets = levelDetails[lvl].targetTexts;
+    for (let i = 0; i < targets.length; i++) {
+        let text = targets[i];
         c.fillText(text.text, text.x, text.y);
     }
 };
 
-var goals = [
-    {x: 328, y: 80, width: 110, height: 50, target: "placid"},
-    {x: 355, y: 140, width: 100, height: 50, target: "black"}
-];
+// var goals = [
+//     {x: 328, y: 80, width: 110, height: 50, target: "placid"},
+//     {x: 355, y: 140, width: 100, height: 50, target: "black"}
+// ];
 
-const setGoals = () => {
+const setGoals = (lvl) => {
     c.fillStyle = `rgb(32,32,32)`;
+    let goals = levelDetails[lvl].goals;
     for (let i = 0; i < goals.length; i++) {
         let rect = goals[i];
         c.fillRect(rect.x, rect.y, rect.width, rect.height);
@@ -153,8 +191,8 @@ const setSearchLight = (size) => {
 var instructionsOn = true;
 var firstTimeInstructions = true;
 var instructionsDifficulties = [
-    {text: "Easy", x: 0, y: 0, size: 30, searchlightSize: 70},
-    { text: "Medium", x: 0, y: 0, size: 30, searchlightSize: 55},
+    {text: "Easy", x: 0, y: 0, size: 30, searchlightSize: 60},
+    { text: "Medium", x: 0, y: 0, size: 30, searchlightSize: 50},
     { text: "Hard", x: 0, y: 0, size: 30, searchlightSize: 40}
 ];
 var currentDifficulty = 55;
@@ -226,6 +264,7 @@ const handleMouseDown = (e) => {
     } else {
 
     // Check if a goal area has been selected
+    let goals = levelDetails[currentLevel].goals;
     for (let i = 0; i < goals.length; i++) {
         let goal = goals[i];
         if (goalHit(startX, startY, goal) && inventoryTexts.length > 0) {
@@ -234,19 +273,20 @@ const handleMouseDown = (e) => {
             for (let j = 0; j < inventoryTexts.length; j++) {
                 let text = inventoryTexts[j];
                 if (text.text === goal.target && text.selected) {
-                    goals.splice(i, 1);
+                    levelDetails[currentLevel].goals.splice(i, 1);
                     inventoryTexts.splice(j, 1);
                 }
             }
         }
     }
     // Check if a target text has been selected
-    for (let i = 0; i < targetTexts.length; i++) {
-        let text = targetTexts[i];
+    let targets = levelDetails[currentLevel].targetTexts;
+    for (let i = 0; i < targets.length; i++) {
+        let text = targets[i];
         if (textHit(startX, startY, text, 40)) {
             storedTextIndices.push(i);
-            tempText = targetTexts[i];
-            targetTexts.splice(i, 1);
+            tempText = targets[i];
+            levelDetails[currentLevel].targetTexts.splice(i, 1);
 
             // Selection test
             // console.log("Text Selected!");
@@ -288,20 +328,27 @@ const handleMouseDown = (e) => {
     }
 };
 
+var times;
+
 const draw = () => {
     c.clearRect(0, 0, canvas.width, canvas.height);
+    clearTimeout(times);
 
-    // Win condition met
-    if (goals.length === 0) {
-        setNormalTexts();
-        setTimeout(() => {
+    // Level win condition met
+    if (currentLevel > Object.keys(levelDetails).length) {
+        c.fillText("Skraatadu", 200, 200);
+    } else if (levelDetails[currentLevel].goals.length === 0) {
+        setNormalTexts(currentLevel);
+        times = setTimeout(() => {
             currentLevel++;
+            draw();
         }, 7000);
+    } else {
+        setNormalTexts(currentLevel);
+        setGoals(currentLevel);
+        setSearchLight(currentDifficulty);
+        setupInventory();
     }
-    setNormalTexts();
-    setGoals();
-    setSearchLight(currentDifficulty);
-    setupInventory();
 };
 
 const handleMouseUp = (e) => {
