@@ -113,7 +113,11 @@ const setGoals = (lvl) => {
 };
 
 var playButton = {
-    text: "Play/Pause    ", x: canvas.width - 200,
+    text: "Play/Pause", x: canvas.width - 200,
+    y: canvas.height * 0.8 + 40, size: 30
+};
+var instructionsButton = {
+    text: "Instructions", x: canvas.width - 500,
     y: canvas.height * 0.8 + 40, size: 30
 };
 
@@ -136,6 +140,7 @@ const setupInventory = () => {
     c.font = "30px sans-serif";
     c.fillText("Inventory:", 20, inventoryStartHeight + 40);
     c.fillText(playButton.text, playButton.x, playButton.y);
+    c.fillText(instructionsButton.text, instructionsButton.x, instructionsButton.y);
 
     let textHeight = (inventoryStartHeight + canvas.height) / 2 + 20;
 
