@@ -59,21 +59,10 @@ var levelDetails = {
         goals: [
             { x: 520, y: 180, width: 90, height: 50, target: "stars" },
             { x: 460, y: 295, width: 85, height: 60, target: "folly" }
-        ]
+        ],
+        nextLevelButton: { text: "Next level", x: 200, y: 100, size: 40 }
     }
 };
-
-// var staticTexts = [
-//     {text: "We live on a placid island of ignorance in", x: 100, y: 120, size: 40},
-//     {text: "the midst of black seas of infinity, and it", x: 140, y: 180, size: 40},
-//     {text: "was not meant that we should voyage far.", x: 180, y: 240, size: 40},
-//     {text: "- H.P. Lovecraft", x: 260, y: 300, size: 40}
-// ];
-
-// var targetTexts = [
-//     {text: "placid", x: 1000, y: 500, size: 40},
-//     {text: "black", x: 100, y: 50, size: 40}
-// ];
 
 var storedTextIndices = [];
 var inventoryTexts = [];
@@ -97,11 +86,6 @@ const setNormalTexts = (lvl) => {
         c.fillText(text.text, text.x, text.y);
     }
 };
-
-// var goals = [
-//     {x: 328, y: 80, width: 110, height: 50, target: "placid"},
-//     {x: 355, y: 140, width: 100, height: 50, target: "black"}
-// ];
 
 const setGoals = (lvl) => {
     c.fillStyle = `rgb(32,32,32)`;
@@ -294,10 +278,8 @@ const handleMouseDown = (e) => {
             storedTextIndices.push(i);
             tempText = targets[i];
             levelDetails[currentLevel].targetTexts.splice(i, 1);
-
             // Selection test
             // console.log("Text Selected!");
-
             break;
         }
     }
@@ -322,7 +304,6 @@ const handleMouseDown = (e) => {
         if (audioContext.state === 'suspended') {
             audioContext.resume();
         }
-
         // play or pause track depending on state
         if (!playing) {
             audioElement.play();
@@ -334,7 +315,7 @@ const handleMouseDown = (e) => {
     }
     }
 };
-
+// Remove timeout and increment currentLevel when clicking on button
 var times;
 
 const draw = () => {
