@@ -1,5 +1,6 @@
 var canvas = document.getElementById("main");
 
+// Audio element
 const AudioContext = window.AudioContext || window.webkitAudioContext;
 const audioContext = new AudioContext();
 
@@ -8,11 +9,14 @@ const track = audioContext.createMediaElementSource(audioElement);
 
 track.connect(audioContext.destination);
 
+// State of music. Start with no music playing
 var playing = false;
 
+// Set canvas height and width properties to full screen 
 canvas.width = window.innerWidth;
 canvas.height = window.innerHeight;
 
+// Set context
 var c = canvas.getContext('2d');
 
 // Mouse location
@@ -21,11 +25,13 @@ var mouse = {
     y: undefined
 };
 
+// X and Y coordinates. Will be used in canvas functions
 var startX = 500;
 var startY = 500;
 
 var currentLevel = 1;
 
+// Setup for each level
 var levelDetails = {
     1: {
         staticTexts: [
@@ -73,6 +79,7 @@ const setNormalFontSettings = () => {
     c.fillStyle = 'white';
 };
 
+// Display full quote and target words
 const setNormalTexts = (lvl) => {
     setNormalFontSettings();
     let texts = levelDetails[lvl].staticTexts;
@@ -87,6 +94,7 @@ const setNormalTexts = (lvl) => {
     }
 };
 
+// Cover target word goals with mask
 const setGoals = (lvl) => {
     c.fillStyle = `rgb(32,32,32)`;
     let goals = levelDetails[lvl].goals;
@@ -96,6 +104,7 @@ const setGoals = (lvl) => {
     }
 };
 
+// Other clickable text and images
 var playButton = {
     text: "Play/Pause", x: canvas.width - 200,
     y: canvas.height * 0.8 + 40, size: 30
@@ -115,6 +124,7 @@ var linkedinImage = {
     link: 'https://www.linkedin.com/in/yoni-hartmayer'
 };
 
+// Draws inventory section on the bottom of the page
 const setupInventory = () => {
     let inventoryHeight = canvas.width * 0.2;
     let inventoryStartHeight = canvas.height * 0.8;
@@ -148,6 +158,7 @@ const setupInventory = () => {
 
     let textHeight = (inventoryStartHeight + canvas.height) / 2 + 20;
 
+    // Renders found words and selected words
     if (inventoryTexts.length === 0 && tempText !== undefined) {
         let text = tempText;
         c.fillText(text.text, 80, textHeight);
@@ -191,6 +202,7 @@ const setupInventory = () => {
 
 };
 
+// Sets radius of circle around cursor
 const setSearchLight = (size) => {
     c.fillStyle = "black";
     c.beginPath();
@@ -208,6 +220,7 @@ var instructionsDifficulties = [
 ];
 var currentDifficulty = 55;
 
+// Renders instructions
 const loadInstructions = () => {
     c.fillStyle = "black";
     c.beginPath();
@@ -221,6 +234,7 @@ const loadInstructions = () => {
     c.fillText("- Search amongst the darkness to find the missing words to complete the quote.", canvas.width / 7, canvas.height / 5 + 50);
     c.fillText("- Once found, select a word from your inventory and click on the place it belongs.", canvas.width / 7, canvas.height / 5 + 90);
 
+    // Different messages on screen depending on if first time view or not
     if (firstTimeInstructions) {
         c.fillText("Select a difficulty:", canvas.width / 3, canvas.height / 5 + 150);
 
@@ -236,6 +250,7 @@ const loadInstructions = () => {
 
 loadInstructions();
 
+// Logic to determine if text is clicked
 const textHit = (x, y, textVar, textSize) => {
     let text = textVar;
     return (x >= text.x &&
@@ -244,6 +259,7 @@ const textHit = (x, y, textVar, textSize) => {
         y <= text.y);
 };
 
+// Logic to determine if rectangle or image is clicked
 const goalHit = (x, y, rectangleVar) => {
     let rect = rectangleVar;
     return (x >= rect.x &&
@@ -285,6 +301,7 @@ const handleMouseDown = (e) => {
         // Do nothing game related if instructions are loaded
         instructionsOn = false;
     } else if (levelDetails[currentLevel].goals.length === 0) {
+        // Next level logic
         let text = levelDetails[currentLevel].nextLevelButton;
         if (textHit(startX, startY, text, text.size)) {
             currentLevel++;
@@ -337,6 +354,7 @@ const handleMouseDown = (e) => {
             // console.log(text.selected);
         }
     }
+    // Check if play / pause music is selected
     if (textHit(startX, startY, playButton, 30)) {
         if (audioContext.state === 'suspended') {
             audioContext.resume();
@@ -350,10 +368,12 @@ const handleMouseDown = (e) => {
             playing = false;
         }
     }
+    // Check if instructions button is clicked
     if (textHit(startX, startY, instructionsButton, instructionsButton.size)) {
         instructionsOn = true;
         loadInstructions();
     }
+    // Check if Github or LinkedIn links are clicked
     if (goalHit(startX, startY, linkedinImage)) {
         window.open(linkedinImage.link);
     }
