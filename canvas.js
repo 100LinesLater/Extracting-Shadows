@@ -264,6 +264,11 @@ const handleMouseDown = (e) => {
     } else if (instructionsOn) {
         // Do nothing game related if instructions are loaded
         instructionsOn = false;
+    } else if (levelDetails[currentLevel].goals.length === 0) {
+        let text = levelDetails[currentLevel].nextLevelButton;
+        if (textHit(startX, startY, text, text.size)) {
+            currentLevel++;
+        }
     } else {
 
     // Check if a goal area has been selected
@@ -331,12 +336,9 @@ const handleMouseDown = (e) => {
     }
     }
 };
-// Remove timeout and increment currentLevel when clicking on button
-var times;
 
 const draw = () => {
     c.clearRect(0, 0, canvas.width, canvas.height);
-    clearTimeout(times);
 
     // Level and game win condition check
     if (currentLevel > Object.keys(levelDetails).length) {
@@ -345,10 +347,6 @@ const draw = () => {
         setNormalTexts(currentLevel);
         let button = levelDetails[currentLevel].nextLevelButton;
         c.fillText(button.text, button.x, button.y);
-        times = setTimeout(() => {
-            currentLevel++;
-            draw();
-        }, 7000);
     } else {
         setNormalTexts(currentLevel);
         setGoals(currentLevel);
