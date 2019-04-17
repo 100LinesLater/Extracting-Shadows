@@ -244,11 +244,22 @@ const handleMouseDown = (e) => {
     // Go to game if instructions are loaded
     if (instructionsOn && firstTimeInstructions) {
         // Check if difficulty has been selected and assign difficulty settings
+        let difficultySelected = false;
+
+        for (let i = 0; i < instructionsDifficulties.length; i++) {
+            let text = instructionsDifficulties[i];
+            if (textHit(startX, startY, text, text.size)) {
+                difficultySelected = true;
+                currentDifficulty = text.searchlightSize;
+            }
+        }
         
-        audioElement.play();
-        playing = true;
-        firstTimeInstructions = false;
-        instructionsOn = false;
+        if (difficultySelected) {
+            audioElement.play();
+            playing = true;
+            firstTimeInstructions = false;
+            instructionsOn = false;
+        }
     } else if (instructionsOn) {
         // Do nothing game related if instructions are loaded
         instructionsOn = false;
