@@ -155,7 +155,7 @@ var instructionsButton = {
     y: canvas.height * 0.8 + 40, size: 30
 };
 var githubImage = {
-    source: './images/Github.png', x: canvas.width - 200,
+    source: './images/GitHub.png', x: canvas.width - 200,
     y: canvas.height - 80, width: 64, height: 64, 
     link: 'https://github.com/100LinesLater'
 };
