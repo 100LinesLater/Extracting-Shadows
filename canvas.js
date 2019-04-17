@@ -200,9 +200,10 @@ const loadInstructions = () => {
     c.font = "30px sans-serif";
     c.fillText("- Search amongst the darkness to find the missing words to complete the quote.", canvas.width / 7, canvas.height / 5 + 50);
     c.fillText("- Once found, select a word from your inventory and click on the place it belongs.", canvas.width / 7, canvas.height / 5 + 90);
-    c.fillText("Select a difficulty:", canvas.width / 3, canvas.height / 5 + 150);
 
     if (firstTimeInstructions) {
+        c.fillText("Select a difficulty:", canvas.width / 3, canvas.height / 5 + 150);
+
         for (let i = 0; i < instructionsDifficulties.length; i++) {
             c.fillText(instructionsDifficulties[i].text, canvas.width / 3 + 80, canvas.height / 5 + 210 + (60 * i));
             instructionsDifficulties[i].x = canvas.width / 3 + 80;
@@ -323,6 +324,10 @@ const handleMouseDown = (e) => {
             audioElement.pause();
             playing = false;
         }
+    }
+    if (textHit(startX, startY, instructionsButton, instructionsButton.size)) {
+        instructionsOn = true;
+        loadInstructions();
     }
     }
 };
