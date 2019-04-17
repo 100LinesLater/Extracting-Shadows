@@ -118,16 +118,19 @@ const setNormalFontSettings = () => {
 };
 
 // Display full quote and target words
-const setNormalTexts = (lvl) => {
+const setQuote = (lvl) => {
     setNormalFontSettings();
     let texts = levelDetails[lvl].staticTexts;
     for (let i = 0; i < texts.length; i++) {
         let text = texts[i];
         c.fillText(text.text, text.x, text.y);
     }
+}
+const setTargets = (lvl) => {
     let targets = levelDetails[lvl].targetTexts;
     for (let i = 0; i < targets.length; i++) {
         let text = targets[i];
+        c.font = `${text.size}px sans-serif`;
         c.fillText(text.text, text.x, text.y);
     }
 };
@@ -429,11 +432,12 @@ const draw = () => {
         c.fillText("Congratulations, you've finished all the current levels", 200, 200);
     } else if (levelDetails[currentLevel].goals.length === 0) {
         inventoryTexts = [];
-        setNormalTexts(currentLevel);
+        setQuote(currentLevel);
         let button = levelDetails[currentLevel].nextLevelButton;
         c.fillText(button.text, button.x, button.y);
     } else {
-        setNormalTexts(currentLevel);
+        setQuote(currentLevel);
+        setTargets(currentLevel);
         setGoals(currentLevel);
         setSearchLight(currentDifficulty);
         setupInventory();
