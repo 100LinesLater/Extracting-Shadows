@@ -104,6 +104,16 @@ var instructionsButton = {
     text: "Instructions", x: canvas.width - 500,
     y: canvas.height * 0.8 + 40, size: 30
 };
+var githubImage = {
+    source: './images/Github.png', x: canvas.width - 200,
+    y: canvas.height - 80, width: 64, height: 64, 
+    link: 'https://github.com/100LinesLater'
+};
+var linkedinImage = {
+    source: './images/linkedin.png', x: canvas.width - 120,
+    y: canvas.height - 80, width: 64, height: 64,
+    link: 'https://www.linkedin.com/in/yoni-hartmayer'
+};
 
 const setupInventory = () => {
     let inventoryHeight = canvas.width * 0.2;
@@ -125,6 +135,16 @@ const setupInventory = () => {
     c.fillText("Inventory:", 20, inventoryStartHeight + 40);
     c.fillText(playButton.text, playButton.x, playButton.y);
     c.fillText(instructionsButton.text, instructionsButton.x, instructionsButton.y);
+
+    let githubImg = new Image();
+    let img1 = githubImage;
+    githubImg.src = img1.source;
+    c.drawImage(githubImg, img1.x, img1.y, img1.width, img1.height);
+
+    let linkedinImg = new Image();
+    let img2 = linkedinImage;
+    linkedinImg.src = img2.source;
+    c.drawImage(linkedinImg, img2.x, img2.y, img2.width, img2.height);
 
     let textHeight = (inventoryStartHeight + canvas.height) / 2 + 20;
 
@@ -333,6 +353,12 @@ const handleMouseDown = (e) => {
     if (textHit(startX, startY, instructionsButton, instructionsButton.size)) {
         instructionsOn = true;
         loadInstructions();
+    }
+    if (goalHit(startX, startY, linkedinImage)) {
+        window.location = linkedinImage.link;
+    }
+    if (goalHit(startX, startY, githubImage)) {
+        window.location = githubImage.link;
     }
     }
 };
