@@ -67,6 +67,44 @@ var levelDetails = {
             { x: 460, y: 295, width: 85, height: 60, target: "folly" }
         ],
         nextLevelButton: { text: "Next level", x: 200, y: 100, width: 200, height: 40, size: 40 }
+    },
+    3: {
+        staticTexts: [
+            { text: "The bird fights its way out of the egg.", x: 150, y: 120, size: 40 },
+            { text: "The egg is the world.", x: 110, y: 180, size: 40 },
+            { text: "Who would be born must first destroy a world.", x: 70, y: 240, size: 40 },
+            { text: "- Herman Hesse", x: 110, y: 300, size: 40 }
+        ],
+        targetTexts: [
+            { text: "bird", x: 900, y: 500, size: 30 },
+            { text: "fish", x: 50, y: 450, size: 30 },
+            { text: "dinosaur", x: 500, y: 400, size: 30 },
+            { text: "Herman", x: 1000, y: 50, size: 30 },
+            { text: "Anton", x: 600, y: 180, size: 30 },
+        ],
+        goals: [
+            { x: 220, y: 80, width: 90, height: 50, target: "bird" },
+            { x: 130, y: 260, width: 150, height: 60, target: "Herman" }
+        ],
+        nextLevelButton: { text: "Next level", x: 200, y: 400, width: 200, height: 40, size: 40 }
+    },
+    4: {
+        staticTexts: [
+            { text: "Humanity has the stars in its future, and that future", x: 200, y: 220, size: 40 },
+            { text: "is too important to be lost under the burden", x: 240, y: 280, size: 40 },
+            { text: "of juvenile folly and ignorant superstition.", x: 280, y: 340, size: 40 },
+            { text: "- Isaac Asimov", x: 360, y: 400, size: 40 }
+        ],
+        targetTexts: [
+            { text: "stars", x: 300, y: 500, size: 30 },
+            { text: "folly", x: 500, y: 50, size: 30 },
+            { text: "error", x: 100, y: 150, size: 30 },
+        ],
+        goals: [
+            { x: 520, y: 180, width: 90, height: 50, target: "stars" },
+            { x: 460, y: 295, width: 85, height: 60, target: "folly" }
+        ],
+        nextLevelButton: { text: "Next level", x: 200, y: 100, width: 200, height: 40, size: 40 }
     }
 };
 
@@ -390,6 +428,7 @@ const draw = () => {
     if (currentLevel > Object.keys(levelDetails).length) {
         c.fillText("Congratulations, you've finished all the current levels", 200, 200);
     } else if (levelDetails[currentLevel].goals.length === 0) {
+        inventoryTexts = [];
         setNormalTexts(currentLevel);
         let button = levelDetails[currentLevel].nextLevelButton;
         c.fillText(button.text, button.x, button.y);
