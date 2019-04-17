@@ -42,7 +42,7 @@ var levelDetails = {
             { x: 328, y: 80, width: 110, height: 50, target: "placid" },
             { x: 355, y: 140, width: 100, height: 50, target: "black" }
         ], 
-        nextLevelButton: { text: "Next level", x: 400, y: 400, size: 40 }
+        nextLevelButton: { text: "Next level", x: 400, y: 400, width: 200, height: 40, size: 40 }
     },
     2: {
         staticTexts: [
@@ -60,7 +60,7 @@ var levelDetails = {
             { x: 520, y: 180, width: 90, height: 50, target: "stars" },
             { x: 460, y: 295, width: 85, height: 60, target: "folly" }
         ],
-        nextLevelButton: { text: "Next level", x: 200, y: 100, size: 40 }
+        nextLevelButton: { text: "Next level", x: 200, y: 100, width: 200, height: 40, size: 40 }
     }
 };
 
