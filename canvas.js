@@ -355,10 +355,10 @@ const handleMouseDown = (e) => {
         loadInstructions();
     }
     if (goalHit(startX, startY, linkedinImage)) {
-        window.location = linkedinImage.link;
+        window.open(linkedinImage.link);
     }
     if (goalHit(startX, startY, githubImage)) {
-        window.location = githubImage.link;
+        window.open(githubImage.link);
     }
     }
 };
