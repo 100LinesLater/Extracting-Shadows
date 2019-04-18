@@ -90,19 +90,23 @@ var levelDetails = {
     },
     4: {
         staticTexts: [
-            { text: "Humanity has the stars in its future, and that future", x: 200, y: 220, size: 40 },
-            { text: "is too important to be lost under the burden", x: 240, y: 280, size: 40 },
-            { text: "of juvenile folly and ignorant superstition.", x: 280, y: 340, size: 40 },
-            { text: "- Isaac Asimov", x: 360, y: 400, size: 40 }
+            { text: "Life and death appeared to me ideal bounds,", x: 200, y: 220, size: 40 },
+            { text: "which I should first break through,", x: 240, y: 280, size: 40 },
+            { text: "and pour a torrent of light into our dark world.", x: 280, y: 340, size: 40 },
+            { text: "- Mary Shelley", x: 360, y: 400, size: 40 }
         ],
         targetTexts: [
-            { text: "stars", x: 300, y: 500, size: 30 },
-            { text: "folly", x: 500, y: 50, size: 30 },
-            { text: "error", x: 100, y: 150, size: 30 },
+            { text: "bounds", x: 800, y: 80, size: 30 },
+            { text: "limits", x: 50, y: 100, size: 30 },
+            { text: "torrent", x: 210, y: 550, size: 30 },
+            { text: "flood", x: 680, y: 400, size: 30 },
+            { text: "light", x: 800, y: 600, size: 30 },
+            { text: "water", x: 1100, y: 270, size: 30 },
         ],
         goals: [
-            { x: 520, y: 180, width: 90, height: 50, target: "stars" },
-            { x: 460, y: 295, width: 85, height: 60, target: "folly" }
+            { x: 850, y: 180, width: 133, height: 50, target: "bounds" },
+            { x: 470, y: 300, width: 140, height: 50, target: "torrent" },
+            { x: 645, y: 300, width: 93, height: 60, target: "light" },
         ],
         nextLevelButton: { text: "Next level", x: 200, y: 100, width: 200, height: 40, size: 40 }
     }
@@ -429,7 +433,8 @@ const draw = () => {
 
     // Level and game win condition check
     if (currentLevel > Object.keys(levelDetails).length) {
-        c.fillText("Congratulations, you've finished all the current levels", 200, 200);
+        c.fillText("Congratulations, you've finished all the current levels.", 200, 200);
+        c.fillText("Stay tuned for more updates.", 200, 250);
     } else if (levelDetails[currentLevel].goals.length === 0) {
         inventoryTexts = [];
         setQuote(currentLevel);
