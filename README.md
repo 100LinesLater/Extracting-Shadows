@@ -8,7 +8,7 @@ This app is meant to be an atmospheric experience for users to discover famous q
 
 ## Features
 
-![](./public/screen-capture.mov)
+![](./public/screen-capture-gif.gif)
 
 ## Future Features
 
