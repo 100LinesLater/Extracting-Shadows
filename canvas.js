@@ -259,9 +259,9 @@ const setSearchLight = (size) => {
 var instructionsOn = true;
 var firstTimeInstructions = true;
 var instructionsDifficulties = [
-    {text: "Easy", x: 0, y: 0, size: 30, searchlightSize: 60},
+    {text: "Easy", x: 0, y: 0, size: 30, searchlightSize: 70},
     { text: "Medium", x: 0, y: 0, size: 30, searchlightSize: 50},
-    { text: "Hard", x: 0, y: 0, size: 30, searchlightSize: 40}
+    { text: "Hard", x: 0, y: 0, size: 30, searchlightSize: 30}
 ];
 var currentDifficulty = 55;
 
