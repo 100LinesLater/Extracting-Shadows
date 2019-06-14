@@ -160,13 +160,13 @@ var instructionsButton = {
     y: canvas.height * 0.8 + 40, size: 30
 };
 var githubImage = {
-    source: './images/GitHub.png', x: canvas.width - 200,
-    y: canvas.height - 80, width: 64, height: 64, 
+    source: './images/GitHub.png', x: canvas.width / 3,
+    y: canvas.height / 5 + 450, width: 64, height: 64, 
     link: 'https://github.com/100LinesLater'
 };
 var linkedinImage = {
-    source: './images/linkedin.png', x: canvas.width - 120,
-    y: canvas.height - 80, width: 64, height: 64,
+    source: './images/linkedin.png', x: canvas.width / 3 + 120,
+    y: canvas.height / 5 + 450, width: 64, height: 64,
     link: 'https://www.linkedin.com/in/yoni-hartmayer'
 };
 
@@ -192,16 +192,6 @@ const setupInventory = () => {
     c.fillText(playButton.text, playButton.x, playButton.y);
     c.fillStyle = 'lightblue';
     c.fillText(instructionsButton.text, instructionsButton.x, instructionsButton.y);
-
-    let githubImg = new Image();
-    let img1 = githubImage;
-    githubImg.src = img1.source;
-    c.drawImage(githubImg, img1.x, img1.y, img1.width, img1.height);
-
-    let linkedinImg = new Image();
-    let img2 = linkedinImage;
-    linkedinImg.src = img2.source;
-    c.drawImage(linkedinImg, img2.x, img2.y, img2.width, img2.height);
 
     let textHeight = (inventoryStartHeight + canvas.height) / 2 + 20;
 
@@ -282,18 +272,29 @@ const loadInstructions = () => {
     c.fillText("- Once found, select a word from your inventory and click on the place it belongs.", canvas.width / 7, canvas.height / 5 + 90);
     c.fillText("- Turn volume on for the best experience.", canvas.width / 7, canvas.height / 5 + 140);
 
+    let githubImg = new Image();
+    let img1 = githubImage;
+    githubImg.src = img1.source;
+    c.drawImage(githubImg, img1.x, img1.y, img1.width, img1.height);
+
+    let linkedinImg = new Image();
+    let img2 = linkedinImage;
+    linkedinImg.src = img2.source;
+    c.drawImage(linkedinImg, img2.x, img2.y, img2.width, img2.height);
+
     // Different messages on screen depending on if first time view or not
     if (firstTimeInstructions) {
         c.fillText("Select a difficulty:", canvas.width / 3, canvas.height / 5 + 190);
 
         for (let i = 0; i < instructionsDifficulties.length; i++) {
-            c.fillText(instructionsDifficulties[i].text, canvas.width / 3 + 80, canvas.height / 5 + 210 + (60 * i));
+            c.fillText(instructionsDifficulties[i].text, canvas.width / 3 + 80, canvas.height / 5 + 250 + (60 * i));
             instructionsDifficulties[i].x = canvas.width / 3 + 80;
-            instructionsDifficulties[i].y = canvas.height / 5 + 210 + (60 * i); 
+            instructionsDifficulties[i].y = canvas.height / 5 + 250 + (60 * i); 
         }
     } else {
         c.fillText("Click anywhere to return to game.", canvas.width / 3, canvas.height / 5 + 300);
     }
+
 };
 
 loadInstructions();
@@ -348,7 +349,15 @@ const handleMouseDown = (e) => {
         }
     } else if (instructionsOn) {
         // Do nothing game related if instructions are loaded
-        instructionsOn = false;
+
+        // Check if Github or LinkedIn links are clicked
+        if (goalHit(startX, startY, linkedinImage)) {
+            window.open(linkedinImage.link);
+        } else if (goalHit(startX, startY, githubImage)) {
+            window.open(githubImage.link);
+        } else {
+            instructionsOn = false;
+        }
     } else if (levelDetails[currentLevel].goals.length === 0) {
         // Next level logic
         let text = levelDetails[currentLevel].nextLevelButton;
@@ -423,13 +432,6 @@ const handleMouseDown = (e) => {
     if (textHit(startX, startY, instructionsButton, instructionsButton.size)) {
         instructionsOn = true;
         loadInstructions();
-    }
-    // Check if Github or LinkedIn links are clicked
-    if (goalHit(startX, startY, linkedinImage)) {
-        window.open(linkedinImage.link);
-    }
-    if (goalHit(startX, startY, githubImage)) {
-        window.open(githubImage.link);
     }
     }
 };
