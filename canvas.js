@@ -156,12 +156,12 @@ const setGoals = (lvl) => {
 
 // Other clickable text and images
 var playButton = {
-    text: "Pause", x: canvas.width - 200,
-    y: canvas.height * 0.8 + 40, size: 30
+    text: "Pause", x: canvas.width - 150,
+    y: canvas.height * 0.85 + 40, size: 30
 };
 var instructionsButton = {
     text: "Instructions", x: canvas.width - 500,
-    y: canvas.height * 0.8 + 40, size: 30
+    y: canvas.height * 0.85 + 40, size: 30
 };
 var githubImage = {
     source: './images/GitHub.png', x: canvas.width / 3,
@@ -176,8 +176,8 @@ var linkedinImage = {
 
 // Draws inventory section on the bottom of the page
 const setupInventory = () => {
-    let inventoryHeight = canvas.width * 0.2;
-    let inventoryStartHeight = canvas.height * 0.8;
+    let inventoryHeight = canvas.height * 0.15;
+    let inventoryStartHeight = canvas.height * 0.85;
 
     c.fillStyle = 'rgb(0, 0, 0)';
     c.fillRect(0, inventoryStartHeight, canvas.width, inventoryHeight);
@@ -193,6 +193,7 @@ const setupInventory = () => {
     c.fillStyle = 'white';
     c.font = "30px sans-serif";
     c.fillText("Inventory:", 20, inventoryStartHeight + 40);
+    c.fillText("Music: ", playButton.x - 100, playButton.y);
     if (playing) {
         c.fillText("Pause", playButton.x, playButton.y);
     } else {
