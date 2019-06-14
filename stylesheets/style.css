@@ -6,4 +6,5 @@ html, body {
 
 #main {
     background: rgb(32, 32, 32);
+    cursor: url(images/candle.png), auto;
 }
