@@ -152,7 +152,7 @@ const setGoals = (lvl) => {
 
 // Other clickable text and images
 var playButton = {
-    text: "Play/Pause", x: canvas.width - 200,
+    text: "Pause", x: canvas.width - 200,
     y: canvas.height * 0.8 + 40, size: 30
 };
 var instructionsButton = {
@@ -411,9 +411,11 @@ const handleMouseDown = (e) => {
         if (!playing) {
             audioElement.play();
             playing = true;
+            playButton.text = "Pause";
         } else if (playing) {
             audioElement.pause();
             playing = false;
+            playButton.text = "Pause";
         }
     }
     // Check if instructions button is clicked
