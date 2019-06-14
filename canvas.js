@@ -274,7 +274,7 @@ const loadInstructions = () => {
     c.font = "30px sans-serif";
     c.fillText("- Search amongst the darkness to find the missing words to complete the quote.", canvas.width / 7, canvas.height / 5 + 50);
     c.fillText("- Once found, select a word from your inventory and click on the place it belongs.", canvas.width / 7, canvas.height / 5 + 90);
-    c.fillText("- Turn volume on for the best experience.", canvas.width / 7, canvas.height / 5 + 140);
+    c.fillText("- Turn volume on for the best experience.", canvas.width / 7, canvas.height / 5 + 130);
 
     let githubImg = new Image();
     let img1 = githubImage;
