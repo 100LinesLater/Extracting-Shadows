@@ -30,7 +30,6 @@ var startX = 500;
 var startY = 500;
 
 var currentLevel = 0;
-var levelTimer = 1000;
 
 // Setup for each level
 var levelDetails = {
@@ -69,7 +68,7 @@ var levelDetails = {
             { x: 460, y: 295, width: 85, height: 60, target: "folly" }
         ],
         nextLevelButton: { text: "Next level", x: 200, y: 100, width: 200, height: 40, size: 40 },
-        levelTime: 240
+        levelTime: 200
     },
     3: {
         staticTexts: [
@@ -90,7 +89,7 @@ var levelDetails = {
             { x: 130, y: 260, width: 150, height: 60, target: "Herman" }
         ],
         nextLevelButton: { text: "Next level", x: 200, y: 400, width: 200, height: 40, size: 40 },
-        levelTime: 210
+        levelTime: 160
     },
     4: {
         staticTexts: [
@@ -113,7 +112,7 @@ var levelDetails = {
             { x: 645, y: 300, width: 93, height: 60, target: "light" },
         ],
         nextLevelButton: { text: "Next level", x: 200, y: 100, width: 200, height: 40, size: 40 },
-        levelTime: 180
+        levelTime: 120
     }
 };
 
@@ -176,7 +175,7 @@ var linkedinImage = {
 
 // Timer feature
 var timer;
-var wick = canvas.width - 150;
+var wick;
 var interval;
 
 const stopTimer = () => {
@@ -184,6 +183,7 @@ const stopTimer = () => {
 };
 
 const startNewTimer = (time) => {
+    wick = canvas.width - 150;
     interval = wick / time;
     timer = setInterval(() => {
         if (wick <= 0) {
@@ -397,6 +397,7 @@ const handleMouseDown = (e) => {
             playing = true;
             firstTimeInstructions = false;
             instructionsOn = false;
+            startNewTimer(levelDetails[currentLevel].levelTime);
         }
     } else if (instructionsOn) {
         // Do nothing game related if instructions are loaded
@@ -408,12 +409,16 @@ const handleMouseDown = (e) => {
             window.open(githubImage.link);
         } else {
             instructionsOn = false;
+            continueTimer();
         }
     } else if (levelDetails[currentLevel].goals.length === 0) {
         // Next level logic
         let text = levelDetails[currentLevel].nextLevelButton;
         if (textHit(startX, startY, text, text.size)) {
             currentLevel++;
+            if (currentLevel <= Object.keys(levelDetails).length) {
+                startNewTimer(levelDetails[currentLevel].levelTime);
+            }
         }
     } else {
 
@@ -432,6 +437,7 @@ const handleMouseDown = (e) => {
                 }
             }
         }
+        if (levelDetails[currentLevel].goals.length === 0) stopTimer();
     }
     // Check if a target text has been selected
     let targets = levelDetails[currentLevel].targetTexts;
@@ -480,6 +486,7 @@ const handleMouseDown = (e) => {
     // Check if instructions button is clicked
     if (textHit(startX, startY, instructionsButton, instructionsButton.size)) {
         instructionsOn = true;
+        stopTimer();
         loadInstructions();
     }
     }
