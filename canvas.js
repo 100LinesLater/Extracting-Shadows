@@ -176,7 +176,7 @@ var linkedinImage = {
 
 // Timer feature
 var timer;
-var wick = c.width - 150;
+var wick = canvas.width - 150;
 var interval;
 
 const stopTimer = () => {
@@ -239,6 +239,9 @@ const setupInventory = () => {
     c.fillText("Timer:", 20, inventoryStartHeight - 20);
     c.fillStyle = 'lightblue';
     c.fillText(instructionsButton.text, instructionsButton.x, instructionsButton.y);
+
+    c.fillStyle = 'gray';
+    c.fillRect(canvas.width - 20, inventoryStartHeight - 40, -wick, 20);
 
     let textHeight = (inventoryStartHeight + canvas.height) / 2 + 20;
 
