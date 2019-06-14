@@ -29,7 +29,8 @@ var mouse = {
 var startX = 500;
 var startY = 500;
 
-var currentLevel = 1;
+var currentLevel = 0;
+var levelTime = 1000;
 
 // Setup for each level
 var levelDetails = {
@@ -327,6 +328,7 @@ const handleMouseDown = (e) => {
     if (instructionsOn && firstTimeInstructions) {
         // Check if difficulty has been selected and assign difficulty settings
         let difficultySelected = false;
+        currentLevel++;
 
         for (let i = 0; i < instructionsDifficulties.length; i++) {
             let text = instructionsDifficulties[i];
