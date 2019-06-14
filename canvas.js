@@ -30,7 +30,7 @@ var startX = 500;
 var startY = 500;
 
 var currentLevel = 0;
-var levelTime = 1000;
+var levelTimer = 1000;
 
 // Setup for each level
 var levelDetails = {
@@ -49,7 +49,8 @@ var levelDetails = {
             { x: 328, y: 80, width: 110, height: 50, target: "placid" },
             { x: 355, y: 140, width: 100, height: 50, target: "black" }
         ], 
-        nextLevelButton: { text: "Next level", x: 400, y: 400, width: 200, height: 40, size: 40 }
+        nextLevelButton: { text: "Next level", x: 400, y: 400, width: 200, height: 40, size: 40 },
+        levelTime: 300
     },
     2: {
         staticTexts: [
@@ -67,7 +68,8 @@ var levelDetails = {
             { x: 520, y: 180, width: 90, height: 50, target: "stars" },
             { x: 460, y: 295, width: 85, height: 60, target: "folly" }
         ],
-        nextLevelButton: { text: "Next level", x: 200, y: 100, width: 200, height: 40, size: 40 }
+        nextLevelButton: { text: "Next level", x: 200, y: 100, width: 200, height: 40, size: 40 },
+        levelTime: 240
     },
     3: {
         staticTexts: [
@@ -87,7 +89,8 @@ var levelDetails = {
             { x: 220, y: 80, width: 90, height: 50, target: "bird" },
             { x: 130, y: 260, width: 150, height: 60, target: "Herman" }
         ],
-        nextLevelButton: { text: "Next level", x: 200, y: 400, width: 200, height: 40, size: 40 }
+        nextLevelButton: { text: "Next level", x: 200, y: 400, width: 200, height: 40, size: 40 },
+        levelTime: 210
     },
     4: {
         staticTexts: [
@@ -109,7 +112,8 @@ var levelDetails = {
             { x: 470, y: 300, width: 140, height: 50, target: "torrent" },
             { x: 645, y: 300, width: 93, height: 60, target: "light" },
         ],
-        nextLevelButton: { text: "Next level", x: 200, y: 100, width: 200, height: 40, size: 40 }
+        nextLevelButton: { text: "Next level", x: 200, y: 100, width: 200, height: 40, size: 40 },
+        levelTime: 180
     }
 };
 
