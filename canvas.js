@@ -189,7 +189,11 @@ const setupInventory = () => {
     c.fillStyle = 'white';
     c.font = "30px sans-serif";
     c.fillText("Inventory:", 20, inventoryStartHeight + 40);
-    c.fillText(playButton.text, playButton.x, playButton.y);
+    if (playing) {
+        c.fillText("Pause", playButton.x, playButton.y);
+    } else {
+        c.fillText("Play", playButton.x, playButton.y);
+    }
     c.fillStyle = 'lightblue';
     c.fillText(instructionsButton.text, instructionsButton.x, instructionsButton.y);
 
@@ -421,11 +425,9 @@ const handleMouseDown = (e) => {
         if (!playing) {
             audioElement.play();
             playing = true;
-            playButton.text = "Pause";
         } else if (playing) {
             audioElement.pause();
             playing = false;
-            playButton.text = "Pause";
         }
     }
     // Check if instructions button is clicked
