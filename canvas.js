@@ -190,6 +190,7 @@ const setupInventory = () => {
     c.font = "30px sans-serif";
     c.fillText("Inventory:", 20, inventoryStartHeight + 40);
     c.fillText(playButton.text, playButton.x, playButton.y);
+    c.fillStyle = 'light blue';
     c.fillText(instructionsButton.text, instructionsButton.x, instructionsButton.y);
 
     let githubImg = new Image();
