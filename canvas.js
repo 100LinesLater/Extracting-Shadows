@@ -174,6 +174,43 @@ var linkedinImage = {
     link: 'https://www.linkedin.com/in/yoni-hartmayer'
 };
 
+// Timer feature
+var timer;
+var wick = c.width - 150;
+var interval;
+
+const stopTimer = () => {
+    clearInterval(timer);
+};
+
+const startNewTimer = (time) => {
+    interval = wick / time;
+    timer = setInterval(() => {
+        if (wick <= 0) {
+            stopTimer();
+            showLoseScreen();
+        }
+        wick -= interval;
+        draw();
+    }, 1000);
+};
+
+const continueTimer = () => {
+    timer = setInterval(() => {
+        wick -= interval;
+        if (wick <= 0) {
+            stopTimer();
+            showLoseScreen();
+        }
+        draw();
+    }, 1000);
+};
+
+const showLoseScreen = () => {
+    //Test
+    console.log("You Lose");
+};
+
 // Draws inventory section on the bottom of the page
 const setupInventory = () => {
     let inventoryHeight = canvas.height * 0.15;
@@ -199,6 +236,7 @@ const setupInventory = () => {
     } else {
         c.fillText("Play", playButton.x, playButton.y);
     }
+    c.fillText("Timer:", 20, inventoryStartHeight - 20);
     c.fillStyle = 'lightblue';
     c.fillText(instructionsButton.text, instructionsButton.x, instructionsButton.y);
 
@@ -330,6 +368,7 @@ audioElement.addEventListener('ended', () => {
     playing = false;
 }, false);
 
+
 const handleMouseDown = (e) => {
     e.preventDefault();
     // Mouse Position on click
@@ -340,13 +379,13 @@ const handleMouseDown = (e) => {
     if (instructionsOn && firstTimeInstructions) {
         // Check if difficulty has been selected and assign difficulty settings
         let difficultySelected = false;
-        currentLevel++;
 
         for (let i = 0; i < instructionsDifficulties.length; i++) {
             let text = instructionsDifficulties[i];
             if (textHit(startX, startY, text, text.size)) {
                 difficultySelected = true;
                 currentDifficulty = text.searchlightSize;
+                currentLevel++;
             }
         }
         
