@@ -188,7 +188,7 @@ const startNewTimer = (time) => {
     timer = setInterval(() => {
         if (wick <= 0) {
             stopTimer();
-            showLoseScreen();
+            showLoseScreen = true;
         }
         wick -= interval;
         draw();
@@ -200,16 +200,13 @@ const continueTimer = () => {
         wick -= interval;
         if (wick <= 0) {
             stopTimer();
-            showLoseScreen();
+            showLoseScreen = true;
         }
         draw();
     }, 1000);
 };
 
-const showLoseScreen = () => {
-    //Test
-    console.log("You Lose");
-};
+var showLoseScreen = false;
 
 // Draws inventory section on the bottom of the page
 const setupInventory = () => {
@@ -420,7 +417,13 @@ const handleMouseDown = (e) => {
                 startNewTimer(levelDetails[currentLevel].levelTime);
             }
         }
-    } else {
+    } else if (showLoseScreen) {
+        if (textHit(startX, startY, {x: 300, y: 280}, 30)) {
+            window.location.reload(true);
+        }
+    }
+    
+    else {
 
     // Check if a goal area has been selected
     let goals = levelDetails[currentLevel].goals;
@@ -504,7 +507,11 @@ const draw = () => {
         setQuote(currentLevel);
         let button = levelDetails[currentLevel].nextLevelButton;
         c.fillText(button.text, button.x, button.y);
-    } else {
+    } else if (showLoseScreen) {
+        c.fillText("You've run out of time.", 200, 200);
+        c.fillText("Retry?", 300, 280);
+    }
+    else {
         setQuote(currentLevel);
         setTargets(currentLevel);
         setGoals(currentLevel);
